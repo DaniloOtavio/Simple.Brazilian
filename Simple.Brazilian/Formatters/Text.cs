@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Simple.Brazilian.Formatters
@@ -114,6 +115,48 @@ namespace Simple.Brazilian.Formatters
             }
 
             return sb.ToString();
+        }
+        /// <summary>
+        /// Função para capitalizar a primeira letra de uma string. O restante da string não sofre alterações.
+        /// </summary>
+        /// <param name="texto">Texto a ser formatado</param>
+        /// <returns>Retorna o próprio texto com a primeira letra maiúscula.</returns>
+        public static string PrimeiraMaiuscula(string texto)
+        {
+            if (isNullOrWhiteSpaceOrEmpty(texto)) return null;
+
+            string primeiraLetra = "";
+            int posPrimeiraLetra = 0;
+            for (int i = 0; i < texto.Length; i++)
+            {
+                if (!char.IsLetter(texto[i])) continue;
+
+                primeiraLetra = char.ToUpper(texto[i]).ToString();
+                posPrimeiraLetra = i;
+                break;
+            }
+            if (primeiraLetra == "") return texto;
+
+            texto = texto.Remove(posPrimeiraLetra, 1).Insert(posPrimeiraLetra, primeiraLetra);
+            return texto;
+        }
+
+        private static bool isNullOrWhiteSpaceOrEmpty(string texto)
+        {
+            if (texto.Length == 0 || texto == null || texto == "") return true;
+
+            bool allCharsWhiteSpace = false;
+            for (int i = 0; i < texto.Length; i++)
+            {
+                if (!char.IsWhiteSpace(texto[i]))
+                {
+                    allCharsWhiteSpace = false;
+                    break;
+                }
+                allCharsWhiteSpace = true;
+            }
+
+            return allCharsWhiteSpace;
         }
     }
 }
